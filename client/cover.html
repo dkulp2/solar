@@ -1,0 +1,67 @@
+<!-- This template is the splash introduction screen.  If a user is logged in already, then we Router.go('/acct') -->
+<template name="Cover">
+    <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h3 class="masthead-brand"><a href="/">Solar DIRECT</a></h3>
+              <nav>
+                <ul class="nav masthead-nav">
+                  <li><a href="/learn">Learn</a></li>
+                  <li><a href="/signin">Sign In</a></li>
+                  <li><a href="/contact">Contact</a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+
+          <div class="inner cover">
+	    {{> yield}}
+          </div>
+
+          <div class="mastfoot">
+            <div class="inner">
+              <p>Brought to you by Jim and David, &copy; 2015</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+</template>
+
+<template name="Splash">
+  <h1 class="cover-heading">Distributed Renewal Energy Credit Transactions</h1>
+  <p class="lead">Solar DIRECT provides centralized transaction management for energy credits earned and sold within the Western Massachusetts WMECO region.  If you own solar panels and want to sell your credits or you want to buy clean energy, Solar DIRECT manages the pre-approved arrangements among buyers and sellers and automates the tracking and billing.</p>
+  <p class="lead">
+    <a href="/learn" class="btn btn-lg btn-default">Learn more</a>
+    <a href="/acct" class="btn btn-lg btn-default">Go to my accounts</a>
+  </p>
+</template>
+
+<template name="Learn">
+<h3>Learn something new every day!</h3>
+<p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec congue neque ante, eget rhoncus erat pretium eu. Vivamus egestas hendrerit aliquet. Etiam ultricies a diam at elementum. Cras molestie magna nisl, at posuere erat imperdiet eget. Nam id varius eros. Proin ac purus eget velit volutpat tincidunt. Nam eleifend lacus ac nulla ultrices efficitur. Duis non maximus lorem.</p>
+<p>
+In vitae felis urna. In eros lectus, porta sit amet bibendum vitae, accumsan eget neque. Proin vulputate nunc a posuere cursus. Aenean eget metus non elit tincidunt iaculis. Nam pretium tempus eros ac feugiat. Fusce auctor nulla risus, et condimentum elit euismod euismod. Aenean vitae eros consectetur, laoreet ligula at, viverra purus. Aliquam et purus purus. Nam eu pharetra purus, vitae varius arcu.</p>
+<p>
+Phasellus commodo, nisi eu facilisis tempus, arcu quam suscipit velit, quis dictum justo nisi eu sem. Ut nec euismod nibh, ac fringilla massa. Integer quis ultrices nibh. Nulla maximus porttitor velit. Nullam euismod ex nec purus condimentum, vel rhoncus est pellentesque. Etiam libero lectus, viverra vitae tempor eget, faucibus in urna. Aliquam sagittis condimentum arcu, sed tempus massa finibus vitae. Proin mollis quam tincidunt, tempor sapien non, posuere risus. Nam euismod ultricies neque, at elementum dui.</p>
+<p>
+Vivamus feugiat, magna eget iaculis auctor, sapien justo egestas tellus, ut porta ex purus non ex. In hac habitasse platea dictumst. Proin eu sodales nibh. Sed eleifend massa vel lacus eleifend, a tempus ipsum laoreet. Vestibulum eget eros id justo congue rhoncus et non elit. Maecenas mattis rutrum malesuada. Duis a dictum diam. Suspendisse id enim vel diam mattis viverra. Pellentesque commodo cursus purus, lacinia dignissim tortor vestibulum at. Morbi pulvinar velit in est condimentum facilisis. Donec semper nibh non ipsum scelerisque dictum. Mauris pulvinar vitae turpis quis accumsan. Nullam sem est, faucibus ac convallis sed, pulvinar a diam. Praesent non pulvinar nibh. Vestibulum auctor est id fringilla sollicitudin.</p>
+<p>
+Fusce elementum dui in tortor posuere, ac pellentesque turpis consequat. Aenean volutpat eu quam sed lacinia. Cras malesuada, purus non sodales vehicula, magna justo tristique justo, sed dictum nisi dui vitae massa. Nullam id leo eros. Praesent tempus, urna ac efficitur tincidunt, eros felis malesuada risus, eget feugiat dolor dolor in metus. Fusce varius tortor sem, eget efficitur nulla congue quis. Donec gravida odio elit, vitae tincidunt eros placerat at. Praesent id diam nisi.</p>
+</template>
+
+<template name="Contact">
+  <h1 class="cover-heading">Sunhaus Solar LLC</h1>
+  <p class="lead">Sunhaus Solar LLC<br>
+    421 Beldingville Rd.<br>
+    Shelburne Falls, MA 01370</p>
+</template>
