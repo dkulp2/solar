@@ -10,6 +10,5 @@ Template.setCSS = function(id,cssfile) {
     if (customCSSTags.filter("#"+id).length == 0) {
 	$('head').append('<link class="customCSS" id="'+id+'" rel="stylesheet" href="'+cssfile+'.css"/>');
     }
-    _.each($('link').filter(".customCSS"), function(a) { console.log(a)});
 };
 

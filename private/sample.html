@@ -1,0 +1,106 @@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Solar</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Bootstrap theme</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container theme-showcase" role="main">
+
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron">
+	<h1>Welcome to Solar! <small>My first project</small></h1>
+
+	{{> press}}
+
+	  <div class="row">
+	    {{> hello}}
+	  </div>
+      </div>
+
+      <p>Normal text here</p>
+      <p class="lead">Bolder "lead" text here with <mark>highlighting</mark> of <strong>bold</strong> and <em>italicized</em> words</p>
+      <dl class="dl-horizontal">
+	<dt>Nice</dt><dd>because it appears side-by-side and justified</dd>
+	<dt>unless</dt><dd>the viewport is too narrow and then it's stacked.</dd>
+      </dl>
+      <div class="table-responsive"><!-- allows tables to flow/scroll outside of viewport on small devices only-->
+	<table class="table table-striped table-hover">
+	  <thead><tr><th>A</th><th>B</th><th width="40%">Amount</th></tr></thead>
+	  <tbody>
+	    <tr><td>striping requires thead and tbody</td><td>two</td>	<td>
+	  <div class="input-group">
+	    <span class="input-group-addon">$</span>
+	    <input type="text" class="form-control">
+	    <span class="input-group-addon">.00</span>
+	  </div>
+	</td>
+</tr>
+	    <tr><td>Set width in th so input-group doesn't expand across table</td><td>four</td>	<td>
+	  <div class="input-group">
+	    <span class="input-group-addon">$</span>
+	    <input type="text" class="form-control">
+	    <span class="input-group-addon">.00</span>
+	  </div>
+	</td>
+</tr>
+	    <tr class="success"><td>three</td><td>four</td>	<td>
+	  <div class="input-group">
+	    <span class="input-group-addon">$</span>
+	    <input type="text" class="form-control">
+	    <span class="input-group-addon">.00</span>
+	  </div>
+	</td>
+</tr>
+	  </tbody>
+	</table>
+      </div>
+
+    </div>
+
+</body>
+
+<template name="press">
+  <button>Press This</button>
+</template>
+
+<template name="hello">
+  ({{counter}} times so far)  
+  {{#each counterRange}}
+    <div class="col-xs-2">{{this}}</div>
+  {{/each}}
+</template>

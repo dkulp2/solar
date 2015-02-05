@@ -1,0 +1,9 @@
+<template name="Contracts">
+<h1 class="page-header">Contract Info Here</h1>
+</template>
+
+<template name="ContractsSidebar">
+{{#each contracts}}
+<li class="{{activeContract contractId}}"><a href="#">{{withAcctId}} FY{{year}}</a></li>
+{{/each}}
+</template>

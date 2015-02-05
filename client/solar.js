@@ -1,10 +1,7 @@
-if (Meteor.isClient) {
-  // set some global vars
-  Session.setDefault("counter", 0);
-}
+// set some global vars for UI management
+Session.setDefault("selectedContract", 1);
+Session.setDefault("selectedCustomer", null);
 
-if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // code to run on server at startup
-  });
-}
+// subscribe to collections from server
+Meteor.subscribe("profiles");
+
