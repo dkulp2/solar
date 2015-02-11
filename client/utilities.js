@@ -8,7 +8,7 @@ Template.setCSS = function(id,cssfile) {
     customCSSTags = $('head link').filter(".customCSS");
     customCSSTags.not("#"+id).remove();
     if (customCSSTags.filter("#"+id).length == 0) {
-	$('head').append('<link class="customCSS" id="'+id+'" rel="stylesheet" href="'+cssfile+'.css"/>');
+	$('head').append('<link class="customCSS" id="'+id+'" rel="stylesheet" href="/'+cssfile+'.css"/>');
     }
 };
 

@@ -1,9 +1,16 @@
-<template name="Contracts">
-<h1 class="page-header">Contract Info Here</h1>
+<template name="ContractsCid">
+{{#with thisContract}}
+<h1 class="page-header">Contract {{year}}</h1>
+<dl><dt>Year</dt><dd>{{year}}</dd>
+  <dt>Credit Percentage</dt><dd>{{credit_pct}}%</dd>
+  <dt>Price Per KWH</dt><dd>{{price_per_kwh}}</dd>
+  <dt>Customer Account</dt><dd>{{withAcctId}}</dd>
+</dl>
+{{/with}}
 </template>
 
 <template name="ContractsSidebar">
 {{#each contracts}}
-<li class="{{activeContract contractId}}"><a href="#">{{withAcctId}} FY{{year}}</a></li>
+<li class="{{activeContract ../selectedCid}}"><a href="{{cid}}">FY{{year}}</a></li>
 {{/each}}
 </template>

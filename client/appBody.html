@@ -15,9 +15,9 @@
         <ul class="nav navbar-nav navbar-right">
 	  {{#if currentUser}}
           <li><a href="/acct">Overview</a></li>
-          <li><a href="/customers">Customers</a></li>
-          <li><a href="/contracts">Contracts</a></li>
-          <li><a href="/profile">Profile</a></li>
+          <li><a href="{{pathFor 'customers'}}">Clients</a></li>
+          <li><a href="{{pathFor 'contracts'}}">Contracts</a></li>
+<!--          <li><a href="/profile">Profile</a></li> -->
           <li><a href="#help">Help</a></li>
 	  {{/if}}
 	  {{> loginButtons}}
@@ -40,7 +40,7 @@ I think I declare sidebar and hasSidebar helpers for each route.-->
       {{#if hasSidebar}}
       <div class="col-sm-3 col-md-2 sidebar">
         <ul class="nav nav-sidebar">
-	  {{> yield "sidebar"}}
+	  {{> yield region="sidebar"}}
         </ul>
       </div>
       {{/if}}

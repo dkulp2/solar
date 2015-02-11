@@ -1,9 +1,15 @@
-<template name="Customers">
-<h1 class="page-header">Customer Info Here</h1>
+<template name="CustomersPid">
+{{#with thisCustomer}}
+<h1 class="page-header">{{name}}</h1>
+<dl><dt>Name</dt><dd>{{name}}</dd>
+  <dt>Account Number</dt><dd>{{eid}}</dd>
+  <dt>Address</dt><dd>{{{address}}}</dd>
+</dl>
+{{/with}}
 </template>
 
 <template name="CustomersSidebar">
 {{#each customers}}
-<li><a href="#">{{name}}</a></li>
+<li class="{{activeCustomer ../selectedPid}}"><a href="{{pid}}">{{name}}</a></li>
 {{/each}}
 </template>
