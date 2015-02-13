@@ -1,16 +1,78 @@
 <template name="ContractsCid">
+{{#if addingContract}}
+<h1 class="page-header">New Contract...</h1>
+{{> ContractForm }}
+{{else}}
+{{#if editingContract}}
+{{> ContractForm }}
+{{else}}
 {{#with thisContract}}
-<h1 class="page-header">Contract {{year}}</h1>
+<div class="row">
+  <div class="col-sm-9"><h1 class="page-header">Contract {{year}}</h1></div>
+  <div class="btn-group col-sm-3" role="group">
+    <button type="button" class="btn btn-default edit-contract" aria-label="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span><br>Edit</button>
+    <button type="button" class="btn btn-default delete-contract" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span><br>Delete</button>
+  </div>
+</div>
 <dl><dt>Year</dt><dd>{{year}}</dd>
   <dt>Credit Percentage</dt><dd>{{credit_pct}}%</dd>
-  <dt>Price Per KWH</dt><dd>{{price_per_kwh}}</dd>
-  <dt>Customer Account</dt><dd>{{withAcctId}}</dd>
+  <dt>Price Per KWH</dt><dd>${{price_per_kwh}}</dd>
+  <dt>Partner</dt><dd>{{partner.name}}</dd>
 </dl>
 {{/with}}
+{{/if}}
+{{/if}}
 </template>
 
 <template name="ContractsSidebar">
-{{#each contracts}}
-<li class="{{activeContract ../selectedCid}}"><a href="{{cid}}">FY{{year}}</a></li>
+{{#each allContracts}}
+<li class="contractListItem {{activeContract ../selectedCid _id}}"><a href="/contracts/{{_id}}">FY{{year}} {{partner.name}}</a></li>
 {{/each}}
+<li class="{{activeContract selectedCid 'new'}}"><a href="/contracts/new">Add ...</a></li>
+</template>
+
+<template name="ContractForm">
+  {{#autoForm collection="Contracts" id="insertContractsForm" type="update" doc=thisContract validation="blur"}}
+  <div class="form-group{{#if afFieldIsInvalid name='withAcctId'}} has-error{{/if}}">
+    <label class="control-label col-sm-3">Contract Partner</label>
+    <div class="input-group col-sm-9">
+      {{> afFieldInput name="withAcctId" options=partnerOptions}}
+    </div>
+    {{#if afFieldIsInvalid name="withAcctId"}}
+    <span class="help-block">{{afFieldMessage name="withAcctId"}}</span>
+    {{/if}}
+  </div>
+  <div class="form-group{{#if afFieldIsInvalid name='contract_date'}} has-error{{/if}}">
+    <label class="control-label col-sm-3">Contract Date</label>
+    <div class="input-group col-sm-9">
+      {{> afFieldInput name="contract_date"}}
+    </div>
+    {{#if afFieldIsInvalid name="contract_date"}}
+    <span class="help-block">{{afFieldMessage name="contract_date"}}</span>
+    {{/if}}
+  </div>
+  <div class="form-group{{#if afFieldIsInvalid name='price_per_kwh'}} has-error{{/if}}">
+    <label class="control-label col-sm-3">Price Per Kilowatt-Hour</label>
+    <div class="input-group col-sm-9">
+      <span class="input-group-addon">$</span>
+      {{> afFieldInput name="price_per_kwh"}}
+    </div>
+    {{#if afFieldIsInvalid name="price_per_kwh"}}
+    <span class="help-block">{{afFieldMessage name="price_per_kwh"}}</span>
+    {{/if}}
+  </div>
+  <div class="form-group{{#if afFieldIsInvalid name='credit_pct'}} has-error{{/if}}">
+    <label class="control-label col-sm-3">Credit Percentage</label>
+    <div class="input-group col-sm-9">
+      {{> afFieldInput name="credit_pct"}}
+      <span class="input-group-addon">%</span>
+    </div>
+    {{#if afFieldIsInvalid name="credit_pct"}}
+    <span class="help-block">{{afFieldMessage name="credit_pct"}}</span>
+    {{/if}}
+  </div>
+  
+  <button type="submit" class="btn btn-primary">Create</button>
+  <button type="reset" class="btn btn-default">Reset</button>
+  {{/autoForm}}
 </template>

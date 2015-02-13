@@ -9,7 +9,8 @@ This is a sample project exploring the Meteor system for web app generation.
 Overview
 --------
 
-This meteor app uses Router to render different pages depending on URLs.  URL mappings are found in lib/router.js.
+This meteor app uses Router to render different pages depending on
+URLs.  URL mappings are found in lib/router.js.
 
 A template is a piece of HTML that is rendered with substitutions
 based on the current state, e.g. user-specific data.  Each template is
@@ -28,6 +29,10 @@ template wherever the "{{> yield}}" is found.  For example,
 
 tells Meteor to use the template Learn.  To reduce proliferation of
 files for tiny pieces, I put the Learn template in cover.html, too.
+
+A cheatsheet for Iron Router:
+
+https://gentlenode.com/journal/meteor-11-iron-router-cheatsheet/18
 
 Multiple Layouts
 ----------------
@@ -218,3 +223,35 @@ defined and called.  E.g.
 I then defined a special function I called Template.setCSS(id,cssfile)
 that directly modifies the DOM using jQuery (see utilities.js).
 
+Schema and Forms
+================
+
+User input is key to the utility of most apps.  In Solar I want to
+collect information from the user about customers and contract
+details.  These are done using HTML forms.  I'll use bootstrap's
+classes for good looking forms and "autoform" to provide mapping
+between forms and collections as well as form validation.  It's a
+feature rich package with some impressive add-ons like a fancy
+datetime picker.
+
+In addition, autoform uses Collection2, which is written by the same
+author as autoform.  It includes a simple schema description language
+so that the fields in a collection can be described and validated on
+both the client and server.
+
+
+
+Styling
+=======
+
+This is perhaps my weakest part.  I don't understand CSS well and I'm
+unfamiliar with the different frameworks.  To lower the learning
+curve, I'm using bootstrap, which is a set of configurable classes
+that can be assigned to HTML elements.  There are other frameworks
+that also look amazing, like Semantic UI, but not for now.
+
+Security
+========
+
+Haven't considered this, yet.  See allow, permit docs for MongoDB on
+server-side and then see https://atmospherejs.com/ongoworks/security.

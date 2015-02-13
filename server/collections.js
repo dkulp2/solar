@@ -20,9 +20,9 @@ Meteor.publish("contracts", function() {
     }
 });
 
-Meteor.publish("customers", function() {
+Meteor.publish("partner", function() {
     if (this.userId) {
-        return Customers.find({acctId: this.userId});
+        return Partners.find({userId: this.userId});
     } else {
         this.ready();
     }

@@ -1,15 +1,31 @@
-<template name="CustomersPid">
-{{#with thisCustomer}}
-<h1 class="page-header">{{name}}</h1>
-<dl><dt>Name</dt><dd>{{name}}</dd>
+<template name="PartnersPid">
+{{#if addingPartner}}
+<h1 class="page-header">New Partner...</h1>
+{{> quickForm collection="Partners" id="insertPartnersForm" type="insert" validation="blur" template="bootstrap3-horizontal" label-class="col-sm-3" input-col-class="col-sm-9" buttonContent="Create"}}
+{{else}}
+{{#if editingPartner}}
+{{> quickForm collection="Partners" id="insertPartnersForm" type="update" doc=thisPartner validation="blur" template="bootstrap3-horizontal" label-class="col-sm-3" input-col-class="col-sm-9" buttonContent="Update"}}
+{{else}}
+{{#with thisPartner}}
+<div class="row">
+  <div class="col-sm-9"><h1 class="page-header">{{name}}</h1></div>
+  <div class="btn-group col-sm-3" role="group">
+    <button type="button" class="btn btn-default edit-partner" aria-label="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span><br>Edit</button>
+    <button type="button" class="btn btn-default delete-partner" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span><br>Delete</button>
+  </div>
+</div>
+<dl>
   <dt>Account Number</dt><dd>{{eid}}</dd>
   <dt>Address</dt><dd>{{{address}}}</dd>
 </dl>
 {{/with}}
+{{/if}}
+{{/if}}
 </template>
 
-<template name="CustomersSidebar">
-{{#each customers}}
-<li class="{{activeCustomer ../selectedPid}}"><a href="{{pid}}">{{name}}</a></li>
+<template name="PartnersSidebar">
+{{#each allPartners}}
+<li class="partnerListItem {{activePartner ../selectedPid _id}}"><a href="/partners/{{_id}}">{{name}}</a></li>
 {{/each}}
+<li class="{{activePartner selectedPid 'new'}}"><a href="/partners/new">Add ...</a></li>
 </template>
