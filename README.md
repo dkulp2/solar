@@ -250,8 +250,25 @@ curve, I'm using bootstrap, which is a set of configurable classes
 that can be assigned to HTML elements.  There are other frameworks
 that also look amazing, like Semantic UI, but not for now.
 
+Currency
+--------
+
+The input element for money should only allow 2 decimal significance.
+I'm not sure how to do this.  There is something called webshims that
+somehow does this http://jsfiddle.net/trixta/UC6tG/light/.  Or maybe
+using Collections2 validations I can just call toFixed(2).
+
+
 Security
 ========
 
 Haven't considered this, yet.  See allow, permit docs for MongoDB on
 server-side and then see https://atmospherejs.com/ongoworks/security.
+
+
+Misc
+====
+
+The Candian Eugenics Archives http://eugenicsarchive.ca/ is an
+extremely impressive and responsive web application.  It is a great
+example of a good modern browser-based UI, IMO.

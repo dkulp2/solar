@@ -1,19 +1,41 @@
 Template.PartnersPid.helpers(
 {
     addingPartner: function() { return this.selectedPid == 'new' },
-    editingPartner: function() { console.log(this); return this.edit },
+    editingPartner: function() { return this.edit; },
     thisPartner: function() {
         return this.partners.findOne(this.selectedPid);
     },
     editUrl: function() {
         return Router.current().originalUrl + '/edit';
+    },
+    beforeRemove: function() {
+        return function(collection, id) { 
+            var self = this;
+            // TODO: warn if there are contracts with this partner
+            bootbox.confirm("Are you sure you want to delete the information for "+
+                            collection.findOne(id).name + "?", 
+                            function(confirmed) {
+                                if (confirmed) {
+                                    self.remove(); 
+                                }
+                            });
+        }
+    },
+    afterRemove: function() {
+        return function(result) {
+            // result is always 1 and 'this' is the Window. Must use
+            // global because no reference to template.
+            Router.go("/partners/"+Partners.findOne()._id);
+        }
     }
 });
 
 Template.PartnersPid.events({
     'click .edit-partner': function(event,template) {
         Router.go('/partners/' + this._id + '/edit');
-    }
+    },
+    'click .delete-partner': function(event,template) {
+    },
 });
 
 Template.PartnersSidebar.helpers(
@@ -44,8 +66,6 @@ AutoForm.hooks({
                 id = template.data.doc._id;
             } else if (operation == 'insert') {
                 id = Partners.findOne(result)._id;
-            } else {
-                console.log("HOW DO I FIND THE DELETE ID");
             }
 
             Router.go('/partners/' + id);

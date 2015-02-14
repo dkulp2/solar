@@ -1,9 +1,5 @@
 <template name="ContractsCid">
-{{#if addingContract}}
-<h1 class="page-header">New Contract...</h1>
-{{> ContractForm }}
-{{else}}
-{{#if editingContract}}
+{{#if modifyingContract}}
 {{> ContractForm }}
 {{else}}
 {{#with thisContract}}
@@ -11,7 +7,7 @@
   <div class="col-sm-9"><h1 class="page-header">Contract {{year}}</h1></div>
   <div class="btn-group col-sm-3" role="group">
     <button type="button" class="btn btn-default edit-contract" aria-label="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span><br>Edit</button>
-    <button type="button" class="btn btn-default delete-contract" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span><br>Delete</button>
+    {{# quickRemoveButton collection=../contracts _id=_id class="btn btn-default" beforeRemove=beforeRemove onSuccess=afterRemove}}<span class="glyphicon glyphicon-remove" aria-hidden="true"></span><br>Delete{{/quickRemoveButton}}
   </div>
 </div>
 <dl><dt>Year</dt><dd>{{year}}</dd>
@@ -20,7 +16,6 @@
   <dt>Partner</dt><dd>{{partner.name}}</dd>
 </dl>
 {{/with}}
-{{/if}}
 {{/if}}
 </template>
 
@@ -32,7 +27,8 @@
 </template>
 
 <template name="ContractForm">
-  {{#autoForm collection="Contracts" id="insertContractsForm" type="update" doc=thisContract validation="blur"}}
+  <h1 class="page-header">{{headerLabel}}</h1>
+  {{#autoForm collection="Contracts" id="insertContractsForm" type=formType doc=thisContract validation="blur"}}
   <div class="form-group{{#if afFieldIsInvalid name='withAcctId'}} has-error{{/if}}">
     <label class="control-label col-sm-3">Contract Partner</label>
     <div class="input-group col-sm-9">
@@ -55,7 +51,7 @@
     <label class="control-label col-sm-3">Price Per Kilowatt-Hour</label>
     <div class="input-group col-sm-9">
       <span class="input-group-addon">$</span>
-      {{> afFieldInput name="price_per_kwh"}}
+      {{> afFieldInput class="currency" data-number-to-fixed="2" name="price_per_kwh"}}
     </div>
     {{#if afFieldIsInvalid name="price_per_kwh"}}
     <span class="help-block">{{afFieldMessage name="price_per_kwh"}}</span>
@@ -72,7 +68,7 @@
     {{/if}}
   </div>
   
-  <button type="submit" class="btn btn-primary">Create</button>
+  <button type="submit" class="btn btn-primary">{{submitLabel}}</button>
   <button type="reset" class="btn btn-default">Reset</button>
   {{/autoForm}}
 </template>
