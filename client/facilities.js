@@ -1,9 +1,9 @@
-Template.CustomersPid.helpers(
+Template.FacilityId.helpers(
 {
-    addingCustomer: function() { return this.selectedPid == 'new' },
-    editingCustomer: function() { return this.edit; },
-    thisCustomer: function() {
-        return this.customers.findOne(this.selectedPid);
+    addingFacility: function() { return this.selectedPid == 'new' },
+    editingFacility: function() { return this.edit; },
+    thisFacility: function() {
+        return this.facilities.findOne(this.selectedPid);
     },
     editUrl: function() {
         return Router.current().originalUrl + '/edit';
@@ -11,7 +11,6 @@ Template.CustomersPid.helpers(
     beforeRemove: function() {
         return function(collection, id) { 
             var self = this;
-            // TODO: warn if there are contracts with this customer
             bootbox.confirm("Are you sure you want to delete the information for "+
                             collection.findOne(id).name + "?", 
                             function(confirmed) {
@@ -25,50 +24,50 @@ Template.CustomersPid.helpers(
         return function(result) {
             // result is always 1 and 'this' is the Window. Must use
             // global because no reference to template.
-            Router.go("/customers/"+Customers.findOne()._id);
+            Router.go("/facilities/"+Facilities.findOne()._id);
         }
     }
 });
 
-Template.CustomersPid.events({
-    'click .edit-customer': function(event,template) {
-        Router.go('/customers/' + this._id + '/edit');
+Template.FacilityId.events({
+    'click .edit-facility': function(event,template) {
+        Router.go('/facility/' + this._id + '/edit');
     },
-    'click .delete-customer': function(event,template) {
+    'click .delete-facility': function(event,template) {
     },
 });
 
-Template.CustomersSidebar.helpers(
+Template.FacilitiesSidebar.helpers(
 {
-    activeCustomer: function(selectedPid, pid) {
+    activeFacility: function(selectedPid, pid) {
         if (selectedPid == pid) { 
             return "active"; 
         } else { 
             return "" ;
         }; 
     },
-    allCustomers: function() {
-        return this.customers.find({});
+    allFacilities: function() {
+        return this.facilities.find({});
     }
 });
 
-Template.CustomersSidebar.events({
-    'click customerListItem': function (event,template) {
-        Session.set("selectedCustomer", this._id); // only used if returning stateless
+Template.FacilitiesSidebar.events({
+    'click facilityListItem': function (event,template) {
+        Session.set("selectedFacility", this._id); // only used if returning stateless
     }
 });
 
 AutoForm.hooks({
-    CustomersForm: {
+    FacilitiesForm: {
         onSuccess: function(operation, result, template) {
             var id;
             if (operation == 'update') {
                 id = template.data.doc._id;
             } else if (operation == 'insert') {
-                id = Customers.findOne(result)._id;
+                id = Facilities.findOne(result)._id;
             }
 
-            Router.go('/customers/' + id);
+            Router.go('/facility/' + id);
         }
     }
 });

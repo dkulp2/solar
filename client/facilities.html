@@ -1,0 +1,37 @@
+<template name="FacilityId">
+{{#if addingFacility}}
+<h1 class="page-header">New Facility...</h1>
+{{> quickForm collection="Facilities" id="FacilitiesForm" type="insert" validation="blur" template="bootstrap3-horizontal" label-class="col-sm-3" input-col-class="col-sm-9" omitFields="producer_id" buttonContent="Create"}}
+{{else}}
+{{#if editingFacility}}
+{{> quickForm collection="Facilities" id="FacilitiesForm" type="update" doc=thisFacility validation="blur" template="bootstrap3-horizontal" label-class="col-sm-3" input-col-class="col-sm-9" omitFields="producer_id" buttonContent="Update"}}
+{{else}}
+{{#with thisFacility}}
+<div class="row">
+  <div class="col-sm-9"><h1 class="page-header">{{name}}</h1></div>
+  <div class="btn-group col-sm-3" role="group">
+    <button type="button" class="btn btn-default edit-facility" aria-label="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span><br>Edit</button>
+    {{# quickRemoveButton collection=../facilities _id=_id class="btn btn-default" beforeRemove=beforeRemove onSuccess=afterRemove}}<span class="glyphicon glyphicon-remove" aria-hidden="true"></span><br>Delete{{/quickRemoveButton}}
+  </div>
+</div>
+<div class="col-sm-9 list-group">
+  <div class="list-group-item">
+    <h4 class="list-group-item-heading">Load Area</h4><p class="list-group-item-text">{{utility}}</p></div>
+  <div class="list-group-item">
+    <h4 class="list-group-item-heading">Host Account</h4><p class="list-group-item-text">{{host_customer.name}}</p></div>
+  <div class="list-group-item">
+    <h4 class="list-group-item-heading">Host Meter Number</h4><p class="list-group-item-text">{{meter}}</p></div>
+  <div class="list-group-item">
+    <h4 class="list-group-item-heading">Location</h4><p class="list-group-item-text"><address>{{location.street}}{{#if location.street2}}<br>{{location.street2}}{{/if}}<br>{{location.city}}, {{location.state}} {{location.zip}}</address></p></div>
+</div>
+{{/with}}
+{{/if}}
+{{/if}}
+</template>
+
+<template name="FacilitiesSidebar">
+{{#each allFacilities}}
+<li class="facilityListItem {{activeFacility ../selectedPid _id}}"><a href="/facility/{{_id}}">{{name}}</a></li>
+{{/each}}
+<li class="{{activeFacility selectedPid 'new'}}"><a href="/facility/new">Add ...</a></li>
+</template>

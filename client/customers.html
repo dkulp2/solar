@@ -1,31 +1,36 @@
-<template name="PartnersPid">
-{{#if addingPartner}}
-<h1 class="page-header">New Partner...</h1>
-{{> quickForm collection="Partners" id="insertPartnersForm" type="insert" validation="blur" template="bootstrap3-horizontal" label-class="col-sm-3" input-col-class="col-sm-9" buttonContent="Create"}}
+<template name="CustomersPid">
+{{#if addingCustomer}}
+<h1 class="page-header">New Customer...</h1>
+{{> quickForm collection="Customers" id="CustomersForm" type="insert" validation="blur" template="bootstrap3-horizontal" label-class="col-sm-3" input-col-class="col-sm-9" omitFields="producer_id" buttonContent="Create"}}
 {{else}}
-{{#if editingPartner}}
-{{> quickForm collection="Partners" id="insertPartnersForm" type="update" doc=thisPartner validation="blur" template="bootstrap3-horizontal" label-class="col-sm-3" input-col-class="col-sm-9" buttonContent="Update"}}
+{{#if editingCustomer}}
+{{> quickForm collection="Customers" id="CustomersForm" type="update" doc=thisCustomer validation="blur" template="bootstrap3-horizontal" label-class="col-sm-3" input-col-class="col-sm-9" omitFields="producer_id" buttonContent="Update"}}
 {{else}}
-{{#with thisPartner}}
+{{#with thisCustomer}}
 <div class="row">
   <div class="col-sm-9"><h1 class="page-header">{{name}}</h1></div>
   <div class="btn-group col-sm-3" role="group">
-    <button type="button" class="btn btn-default edit-partner" aria-label="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span><br>Edit</button>
-    {{# quickRemoveButton collection=../partners _id=_id class="btn btn-default" beforeRemove=beforeRemove onSuccess=afterRemove}}<span class="glyphicon glyphicon-remove" aria-hidden="true"></span><br>Delete{{/quickRemoveButton}}
+    <button type="button" class="btn btn-default edit-customer" aria-label="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span><br>Edit</button>
+    {{# quickRemoveButton collection=../customers _id=_id class="btn btn-default" beforeRemove=beforeRemove onSuccess=afterRemove}}<span class="glyphicon glyphicon-remove" aria-hidden="true"></span><br>Delete{{/quickRemoveButton}}
   </div>
 </div>
-<dl>
-  <dt>Account Number</dt><dd>{{eid}}</dd>
-  <dt>Address</dt><dd>{{{address}}}</dd>
-</dl>
+<div class="col-sm-9 list-group">
+  <div class="list-group-item">
+    <h4 class="list-group-item-heading">Account Number</h4><p class="list-group-item-text">{{utility_acct}}</p></div>
+  <div class="list-group-item">
+    <h4 class="list-group-item-heading">Email</h4><p class="list-group-item-text">{{email}}</p></div>
+  <div class="list-group-item">
+    <h4 class="list-group-item-heading">Billing Address</h4><p class="list-group-item-text">{{#if business}}{{business}}<br>{{/if}}{{billing.street}}{{#if billing.street2}}<br>{{billing.street2}}{{/if}}<br>{{billing.city}}, {{billing.state}} {{billing.zip}}</p></div>
+</div>
+
 {{/with}}
 {{/if}}
 {{/if}}
 </template>
 
-<template name="PartnersSidebar">
-{{#each allPartners}}
-<li class="partnerListItem {{activePartner ../selectedPid _id}}"><a href="/partners/{{_id}}">{{name}}</a></li>
+<template name="CustomersSidebar">
+{{#each allCustomers}}
+<li class="customerListItem {{activeCustomer ../selectedPid _id}}"><a href="/customers/{{_id}}">{{name}}</a></li>
 {{/each}}
-<li class="{{activePartner selectedPid 'new'}}"><a href="/partners/new">Add ...</a></li>
+<li class="{{activeCustomer selectedPid 'new'}}"><a href="/customers/new">Add ...</a></li>
 </template>

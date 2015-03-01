@@ -4,7 +4,7 @@
 editingContract = function() { return this.edit; };
 editUrl = function() { return Router.current().originalUrl + '/edit'; };
 thisContract = function() { return this.contracts.findOne(this.selectedCid); };
-addingContract = function() { return this.selectedCid == "new" };
+addingContract = function() { return this.newContract };
 
 Template.ContractsCid.helpers(
 {
@@ -29,27 +29,37 @@ Template.ContractsCid.helpers(
         return function(result) {
             Router.go("/contracts/"+Contracts.findOne()._id);
         }
+    },
+    addingInvoice: function() { return Session.get("adding_invoice"); },
+    showAddInvoice: function() {
+        // display an add button if not automatic billing and not currently adding an invoice
+        return !this.automatic && !Session.get("adding_invoice");
     }
-
 });
 
 Template.ContractsCid.events({
     'click .edit-contract': function(event,template) {
         Router.go('/contracts/' + this._id + '/edit');
+    },
+    'click .add-invoice': function(event, template) {
+        Session.set("adding_invoice", true);
     }
 });
 
 Template.ContractsSidebar.helpers(
 {
-    activeContract: function(selectedCid, cid) {
+    selectedContract: function(selectedCid, cid) {
         if (selectedCid == cid) { 
             return "active"; 
         } else { 
             return "" ;
         }; 
     },
+    disabledContract: function() {
+        return this.active?"":"disabled";
+    },
     allContracts: function() {
-        return this.contracts.find({});
+        return this.contracts.find();
     }
 });
 
@@ -60,8 +70,13 @@ Template.ContractsSidebar.events({
 });
 
 Template.ContractForm.helpers({
-    partnerOptions: function() {
-        return this.partners.find().map(function(p) {
+    customerOptions: function() {
+        return this.customers.find().map(function(p) {
+            return { label: p.name, value: p._id };
+        });
+    },
+    facilityOptions: function() {
+        return this.facilities.find().map(function(p) {
             return { label: p.name, value: p._id };
         });
     },
@@ -75,6 +90,7 @@ Template.ContractForm.helpers({
 AutoForm.hooks({
     insertContractsForm: {
         onSuccess: function(operation, result, template) {
+            console.log(operation,result);
             var id;
             if (operation == 'update') {
                 id = template.data.doc._id;

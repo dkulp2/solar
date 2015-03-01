@@ -10,4 +10,4 @@ Template.AppBody.helpers(
 });
 
 Template.AppBody.events({
-  });
+});

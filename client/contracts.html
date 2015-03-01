@@ -1,46 +1,101 @@
 <template name="ContractsCid">
-{{#if modifyingContract}}
-{{> ContractForm }}
-{{else}}
-{{#with thisContract}}
-<div class="row">
-  <div class="col-sm-9"><h1 class="page-header">Contract {{year}}</h1></div>
-  <div class="btn-group col-sm-3" role="group">
-    <button type="button" class="btn btn-default edit-contract" aria-label="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span><br>Edit</button>
-    {{# quickRemoveButton collection=../contracts _id=_id class="btn btn-default" beforeRemove=beforeRemove onSuccess=afterRemove}}<span class="glyphicon glyphicon-remove" aria-hidden="true"></span><br>Delete{{/quickRemoveButton}}
+  {{#if modifyingContract}}
+  {{> ContractForm }}
+  {{else}}
+  {{#with thisContract}}
+  <div class="row">
+    <div class="col-sm-9"><h1 class="page-header">{{facility.name}} - {{customer.name}} {{year}}</h1></div>
+    <div class="btn-group col-sm-3" role="group">
+      <button type="button" class="btn btn-default edit-contract" aria-label="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span><br>Edit</button>
+      {{# quickRemoveButton collection=../contracts _id=_id class="btn btn-default" beforeRemove=beforeRemove onSuccess=afterRemove}}<span class="glyphicon glyphicon-remove" aria-hidden="true"></span><br>Delete{{/quickRemoveButton}}
+    </div>
   </div>
-</div>
-<dl><dt>Year</dt><dd>{{year}}</dd>
-  <dt>Credit Percentage</dt><dd>{{credit_pct}}%</dd>
-  <dt>Price Per KWH</dt><dd>${{price_per_kwh}}</dd>
-  <dt>Partner</dt><dd>{{partner.name}}</dd>
-</dl>
-{{/with}}
-{{/if}}
+  <div class="list-group">
+    <div class="list-group-item">
+      <h4 class="list-group-item-heading">Contract Date</h4><p class="list-group-item-text">{{contract_date_fmt}}</p></div>
+    <div class="list-group-item">
+      <h4 class="list-group-item-heading">Credit Percentage</h4><p class="list-group-item-text">{{credit_pct}}%</p></div>
+    <div class="list-group-item">
+      <h4 class="list-group-item-heading">Price Per kWh</h4><p class="list-group-item-text">${{price_per_kwh}}</p></div>
+    {{#if automatic}}
+    <div class="list-group-item">
+      <h4 class="list-group-item-heading">Billing Day of the Month</h4><p class="list-group-item-text">{{billing_day}}</p></div>
+    {{/if}}
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4>{{#if showAddInvoice}}<button type="button" class="btn btn-default add-invoice" aria-label="Add">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span><br>Add</button>{{/if}}&nbsp;Invoices</h4>
+      <div class="col-sm-3">
+      </div>
+    </div>
+    
+    {{#if addingInvoice}}
+    {{#autoForm collection="Invoices" id="addInvoiceForm" type="insert" validation="blur"}}
+    <table class="table">
+      <tr><th>Start</th><th>End</th><th>kWh</th><th>Amount</th><th>Invoice Date</th><th>Number</th><th width="50px"></th></tr>
+      <tr>
+        <td>{{> afFieldInput name="activity_begin"}}</td><td>{{> afFieldInput name="activity_end"}}</td>
+        <td>{{> afFieldInput name="total_kwh"}}</td>
+        <td>{{> afFieldInput name="total_credited"}}</td>
+        <td>{{> afFieldInput name="invoice_date"}}</td>
+        <td></td>
+        <td><button type="submit" class="btn btn-primary btn-xs" title="Add invoice" aria-label="Add"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button></td>
+        <input name="contract_id" value={{_id}} type="hidden" data-schema-key="contract_id">
+      </tr>
+      {{#each invoices}}
+      <tr><td>{{activity_begin_fmt}}</td><td>{{activity_end_fmt}}</td><td>{{total_kwh}}</td><td>{{total_credited}}</td><td>{{invoice_date_fmt}}</td><td>{{invoice_number}}</td>
+        <td><div class="btn-group" role="group">
+            <button type="button" class="btn btn-xs btn-info download-invoice" title="Download" aria-label="Download"><span class="glyphicon glyphicon-download" area-hidden="true"></span></button>
+            <button type="button" class="btn btn-xs btn-info send-invoice" title="Send invoice by email" aria-label="Send"><span class="glyphicon glyphicon-envelope" area-hidden="true"></span></button>
+          </div>
+        </td>
+      </tr>
+      {{/each}}
+    </table>
+    {{/autoForm}}
+    {{/if}}
+  </div>
+  
+  {{/with}}
+  
+  {{/if}}
 </template>
+
+
 
 <template name="ContractsSidebar">
 {{#each allContracts}}
-<li class="contractListItem {{activeContract ../selectedCid _id}}"><a href="/contracts/{{_id}}">FY{{year}} {{partner.name}}</a></li>
+<li class="contractListItem {{selectedContract ../selectedCid _id}}"><a href="/contracts/{{_id}}">{{facility.name}}-{{customer.name}}</a></li>
 {{/each}}
-<li class="{{activeContract selectedCid 'new'}}"><a href="/contracts/new">Add ...</a></li>
+<li class="{{selectedContract selectedCid 'new'}}"><a href="/contracts/new">Add ...</a></li>
 </template>
 
 <template name="ContractForm">
   <h1 class="page-header">{{headerLabel}}</h1>
   {{#autoForm collection="Contracts" id="insertContractsForm" type=formType doc=thisContract validation="blur"}}
-  <div class="form-group{{#if afFieldIsInvalid name='withAcctId'}} has-error{{/if}}">
-    <label class="control-label col-sm-3">Contract Partner</label>
+  <div class="form-group{{#if afFieldIsInvalid name='customer_id'}} has-error{{/if}}">
+    <label class="control-label col-sm-3">Customer</label>
     <div class="input-group col-sm-9">
-      {{> afFieldInput name="withAcctId" options=partnerOptions}}
+      {{> afFieldInput name="customer_id" options=customerOptions}}
     </div>
-    {{#if afFieldIsInvalid name="withAcctId"}}
-    <span class="help-block">{{afFieldMessage name="withAcctId"}}</span>
+    {{#if afFieldIsInvalid name="customer_id"}}
+    <span class="help-block">{{afFieldMessage name="customer_id"}}</span>
+    {{/if}}
+  </div>
+  <div class="form-group{{#if afFieldIsInvalid name='facility_id'}} has-error{{/if}}">
+    <label class="control-label col-sm-3">Facility</label>
+    <div class="input-group col-sm-9">
+      {{> afFieldInput name="facility_id" options=facilityOptions}}
+    </div>
+    {{#if afFieldIsInvalid name="facility_id"}}
+    <span class="help-block">{{afFieldMessage name="facility_id"}}</span>
     {{/if}}
   </div>
   <div class="form-group{{#if afFieldIsInvalid name='contract_date'}} has-error{{/if}}">
     <label class="control-label col-sm-3">Contract Date</label>
-    <div class="input-group col-sm-9">
+    <div class="input-group col-sm-3">
       {{> afFieldInput name="contract_date"}}
     </div>
     {{#if afFieldIsInvalid name="contract_date"}}
@@ -49,7 +104,7 @@
   </div>
   <div class="form-group{{#if afFieldIsInvalid name='price_per_kwh'}} has-error{{/if}}">
     <label class="control-label col-sm-3">Price Per Kilowatt-Hour</label>
-    <div class="input-group col-sm-9">
+    <div class="input-group col-sm-3">
       <span class="input-group-addon">$</span>
       {{> afFieldInput class="currency" data-number-to-fixed="2" name="price_per_kwh"}}
     </div>
@@ -59,7 +114,7 @@
   </div>
   <div class="form-group{{#if afFieldIsInvalid name='credit_pct'}} has-error{{/if}}">
     <label class="control-label col-sm-3">Credit Percentage</label>
-    <div class="input-group col-sm-9">
+    <div class="input-group col-sm-3">
       {{> afFieldInput name="credit_pct"}}
       <span class="input-group-addon">%</span>
     </div>
@@ -67,8 +122,10 @@
     <span class="help-block">{{afFieldMessage name="credit_pct"}}</span>
     {{/if}}
   </div>
-  
+  {{> afQuickField name="automatic"}}
+  {{#if afFieldValueIs name="automatic" value=true}}
+  {{> afQuickField name="billing_day" options="allowed" template="bootstrap3-horizontal" label-class="col-sm-3" input-col-class="col-sm-2"}}
+  {{/if}}<div class="clearfix"></div>
   <button type="submit" class="btn btn-primary">{{submitLabel}}</button>
-  <button type="reset" class="btn btn-default">Reset</button>
   {{/autoForm}}
 </template>

@@ -272,3 +272,36 @@ Misc
 The Candian Eugenics Archives http://eugenicsarchive.ca/ is an
 extremely impressive and responsive web application.  It is a great
 example of a good modern browser-based UI, IMO.
+
+Use {{if CurrentUser}} instead of checking Meteor.user().
+
+Use Roles for administrator access,
+e.g. http://stackoverflow.com/questions/28617888/how-to-delete-users-from-account-ui-meteor
+
+In Iron Router, the dataNotFound stuff happens when the data for the
+route returns null.  So set data to be a function that returns a
+collection document.  Currently I do something more complicated
+because I want a sidebar that knows about all the items.  So change
+the function to return null if the item is missing?  Or maybe leave
+alone and display a blank or special note in the main section.
+
+*Add FastRender* for startup.  It sends server-side rendered HTML
+ instead of waiting for the client to establish a DDP connection.
+
+There are typeahead javascript packages like https://twitter.github.io/typeahead.js/
+that are really nice for data entry.
+
+For tables, add a row selection, perhaps using
+https://github.com/birkir/bootstrap-tableselect Once one or more rows
+are selected, then display icons for actions (print, download, send).
+
+Embedding Other JS Tools
+========================
+
+Suppose you want to dynamically render or re-render a chart.
+Templates have an optional ".rendered" function, which means that the
+DOM has been updated.  Once that's complete, then you can call code in
+other packages, such as drawing a chart.  See
+http://stackoverflow.com/questions/28572659/properly-loading-template-templatename-rendered-data-context
+as a good example and discussion about race condition.
+

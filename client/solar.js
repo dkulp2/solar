@@ -1,5 +1,7 @@
 // subscribe to collections from server
-Meteor.subscribe("profiles");
+Meteor.subscribe("producers");
 Meteor.subscribe("contracts");
-Meteor.subscribe("partners");
+Meteor.subscribe("customers");
+Meteor.subscribe("facilities");
+Meteor.subscribe("invoices");
 

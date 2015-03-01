@@ -1,28 +1,39 @@
-// On the server, profiles are just a different view of Meteor.users
-// that includes additional data regarding login to WMECO.  Password
-// should be stored on server, but not accessible by client.  It can
-// be reset.
-Meteor.publish("profiles", function () {
+Meteor.publish("producers", function () {
     if (this.userId) {
-	return Meteor.users.find({_id: this.userId},
-				 {fields: { 'emails': 1, 'profile': 1, 'accountId': 1}});
+        return Producers.find(this.userId);
     } else {
 	this.ready();
     }
 });
 
-// TODO: create the collection in MongoDB so that we can define the indices
 Meteor.publish("contracts", function() {
     if (this.userId) {
-        return Contracts.find({acctId: this.userId});
+        return Contracts.find({/* TODO find only contracts for this producer's facilities */});
     } else {
         this.ready();
     }
 });
 
-Meteor.publish("partner", function() {
+Meteor.publish("customers", function() {
     if (this.userId) {
-        return Partners.find({userId: this.userId});
+        return Customers.find({producer_id: this.userId});
+    } else {
+        this.ready();
+    }
+});
+
+Meteor.publish("facilities", function() {
+    if (this.userId) {
+        return Facilities.find({producer_id: this.userId});
+    } else {
+        this.ready();
+    }
+});
+
+Meteor.publish("invoices", function() {
+    if (this.userId) {
+        // TODO: search for invoices with contract IDs that belong to this.userId
+        return Invoices.find({});
     } else {
         this.ready();
     }
